@@ -1,0 +1,22 @@
+language: php
+
+php:
+  - 7.4
+
+services:
+  - mysql
+
+env:
+  global:
+    - CI_ENV=travis
+
+install:
+  - composer install
+
+script:
+  - phpunit
+  - phpcs --standard=PSR2 app/
+  - phpmd app/ text codesize,unusedcode,naming
+  - phpstan analyse app/ --level 7
+  - phptidy app/
+
